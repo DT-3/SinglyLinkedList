@@ -1,0 +1,212 @@
+#include "List.h"
+#include <iostream>
+using namespace std;
+
+// A basic node that contains a pointer to the next node and stores an int value
+struct node
+{
+	int data;
+	node* next;
+	node()
+	{
+		next = NULL;
+	}
+};
+
+List::List()
+{
+}
+
+// O(1) - a method that takes in an int and creates a new node at the front of the list
+void List::insertFront(int newData)
+{
+	struct node* newNode = new node;
+	newNode->data = newData;
+	newNode->next = head;
+	head = newNode;
+	ctr++;
+}
+
+// O(n) - a simple method that displays the data stored in all the nodes
+void List::display()
+{
+	struct node* temp;
+	temp = head;
+
+	// Loop that runs until the end of the list
+	while (temp != NULL)
+	{
+		cout << temp->data << " ";
+		temp = temp->next;
+	}
+	cout << endl;
+}
+
+// O(1) - returns the amount of elements in the list
+int List::size()
+{
+	return ctr;
+}
+
+// O(1) - Returns true if the list is empty
+bool List::empty()
+{
+	// Conditional that checks if the list is empty
+	if (ctr > 0)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+// O(1) - Gets rid of the first element in the list
+void List::popFront()
+{
+	// Conditional that makes sure that there is at least one element in the list
+	if (head != NULL)
+	{
+		struct node* temp = head;
+		head = head->next;
+		free(temp);
+
+		ctr--;
+	}
+}
+// O(n) - Gets rid of the last element in the list
+void List::popBack()
+{
+	struct node* temp = head;
+	struct node* previous = new node;
+
+	if (head->next == NULL)
+	{
+		return;
+	}
+	else
+	{
+		while (temp->next != NULL)
+		{
+			// Logic that makes sure the pointers are pointing to the right things
+			previous = temp;
+			temp = temp->next;
+		}
+
+		// Deletes the propper node
+		previous->next = temp->next;
+		delete(temp);
+		ctr--;
+	}
+}
+
+// O(1) - Returns the data at the front of the element
+int List::front()
+{
+	return head->data;
+}
+
+// O(n) - Returns the data at the last element of the list
+int List::back()
+{
+	struct node* temp = head;
+
+	// Loop until the end of the list
+	while (temp->next != NULL)
+	{
+		temp = temp->next;
+	}
+
+	return temp->data;
+
+}
+
+// O(n) - A method that inserts a value in the correct place in ascending order (no duplicates)
+void List::insert(int value)
+{
+	struct node* newNode = new node;
+	struct node* temp = new node;
+	struct node* prev = new node;
+
+	newNode->data = value;
+	temp = head;
+
+	// Condtional that checks the logical conditions of where to insert
+
+	// Insert if the list is empty
+	if (head == NULL)
+	{
+		head = newNode;
+		newNode->next = NULL;
+		ctr++;
+	}
+	// If the element being inserted is smaller than the front
+	else if (head->data > newNode->data)
+	{
+		insertFront(value);
+	}
+	// If the element being inserted is bigger than the front and other conditions
+	else
+	{
+		// Looping until the end
+		while (temp->next != NULL)
+		{
+			prev = temp;
+			temp = temp->next;
+
+			// Other unique coniditions to check for
+			if (temp->data >= newNode->data)
+			{
+				prev->next = newNode;
+				newNode->next = temp;
+				ctr++;
+				break;
+			}
+			else if (temp->data < newNode->data && temp->next == NULL)
+			{
+				temp->next = newNode;
+				newNode->next = NULL;
+				ctr++;
+				break;
+			}
+			else if (temp->data < newNode->data && temp->next->data >= newNode->data)
+			{
+				newNode->next = temp->next;
+				temp->next = newNode;
+				ctr++;
+				break;
+			}
+		}
+	}
+}
+
+// O(n) - Method that puts the list in descending order
+void List::reverse()
+{
+	struct node* temp = head;
+	struct node* prev = NULL, * next = NULL;
+
+	while (temp != NULL)
+	{
+		// Reversing the exisiting list by changing pointers around
+		next = temp->next;
+		temp->next = prev;
+		prev = temp;
+		temp = next;
+	}
+	head = prev;
+}
+
+// O(n) - Method that merges one list with another list
+void List::merge(List a)
+{
+	// Looping through the SLL "a" until it is empty and inserting each element into THIS list
+	while (a.ctr > 1)
+	{
+		this->insert(a.front());
+		a.popFront();
+	}
+
+	this->insert(a.front());
+}
