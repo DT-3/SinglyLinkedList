@@ -1,0 +1,23 @@
+#pragma once
+#include <iostream>
+class List
+{
+private:
+	int ctr = 0;
+public:
+	void insertFront(int newData);
+	struct node* head = NULL;
+	struct node* sorted;
+	List();
+	void display();
+	int size();
+	bool empty();
+	void popFront();
+	void popBack();
+	int front();
+	int back();
+	void insert(int value);
+	void reverse();
+	void merge(List a);
+};
+
