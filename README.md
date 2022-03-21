@@ -1,5 +1,5 @@
 # SinglyLinkedList
-A SSL in C++
+A SLL in C++
 
 The main method runs all methods that are located in the header file. I made
 this for a school assignment and have plans to make a Java version in the future. 
