@@ -1,0 +1,47 @@
+// Daniel Thompson
+// CST-201
+// This is my own work
+// 1/25/22
+// Daniel Thompson
+// This is my own work
+#include <iostream>
+#include "List.h"
+using namespace std;
+
+int main()
+{
+	List list;
+	List listTwo;
+
+	list.insert(14);
+	list.insert(12);
+	list.insert(3);
+	list.insert(6);
+	list.insert(7);
+	list.insert(2);
+	list.display();
+	cout << list.size() << endl;
+	list.insert(16);
+	list.display();
+	list.popFront();
+	list.display();
+	cout << list.size() << endl;
+	cout << list.empty() << endl;
+	list.popBack();
+	list.display();
+	cout << list.front() << endl;
+	cout << list.back() << endl;
+
+	list.display();
+
+	listTwo.insert(18);
+	listTwo.insert(4);
+	listTwo.insert(3);
+	listTwo.display();
+
+	list.merge(listTwo);
+	list.display();
+
+	list.reverse();
+	list.display();
+}
